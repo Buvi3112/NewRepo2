@@ -1,0 +1,19 @@
+h1{
+    text-align: center;
+    color: white;
+}
+
+table{
+    align-content: flex-end;
+    width: 100%;
+    padding-left: 5%;
+}
+
+td {
+    height: 50px;
+    vertical-align: bottom;
+  }
+
+a:link { text-decoration: none; }
+
+

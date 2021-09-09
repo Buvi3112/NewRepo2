@@ -1,0 +1,60 @@
+<app-header></app-header>
+<h1>User Queries</h1>
+<div style="text-align: right;">
+    <a style="color: white;" routerLink="/adminhome">Back to Home</a>
+</div>
+
+<table>
+    <tr>
+        <td style="color: white;">
+            TicketNumber
+        </td>
+        <td style="color: white;">
+            Account
+        </td>
+        <td style="color: white;">
+            Date
+        </td>
+        <td style="color: white;">
+            Query
+        </td>
+        <td style="color: white;">
+            Answer
+        </td>
+    </tr>
+    <tr *ngFor="let queries of queue.slice(0,10); let i=index">
+        <td style="color: white;">
+            {{queries.TicketNumber}}
+        </td>
+        <td style="color: white;">
+            {{queries.AccNumber}}
+        </td>
+        <td style="color: white;">
+            {{queries.Date}}
+        </td>
+        <td style="color: white;">
+            {{queries.Query}}
+        </td>
+        <td style="color: white;">
+            {{queries.Answer}}
+        </td>
+        <td style="color: white;">
+            <input type="submit" value="Edit" (click)="onSubmitAns(queries)"/>
+        </td>
+        
+    </tr>
+</table>
+
+
+
+<form *ngIf="show" (ngSubmit)="onSubmitEdit(ticket,one)">
+    <div>
+        {{ticket}}
+    </div>
+    <div>
+        <label for="one">Answer</label>
+        <input type="text" [(ngModel)]="one" name="one" id="one"/>
+    </div>
+    <input type="submit" value="Submit">
+</form>
+

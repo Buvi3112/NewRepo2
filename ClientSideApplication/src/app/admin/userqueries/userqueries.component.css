@@ -1,0 +1,18 @@
+table{
+    align-content: space-around;
+    width: 100%;
+    padding-left: 10%;
+}
+
+td {
+    height: 50px;
+    vertical-align: bottom;
+  }
+
+a:link { text-decoration: none; }
+
+h1{
+  text-align: center;
+  color: white;
+}
+

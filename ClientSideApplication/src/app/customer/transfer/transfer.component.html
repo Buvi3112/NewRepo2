@@ -1,0 +1,21 @@
+<app-header></app-header>
+<h1>Transfer Account</h1>
+<form style="text-align: justify;" (ngSubmit)="onSubmitWithdraw()">
+    <div class="one">
+        <label for="accountName">Enter the Payee Account :</label>
+        <input type="number" min="100" max="2000000" step="10" name="toAcc" [(ngModel)]="toAcc" id="toAcc" placeholder="Payee Account"/>
+   </div>
+   <br>
+    <div class="one">
+         <label for="amount">Enter the Amount :</label>
+         <input type="number" min="100" max="2000000" step="10" name="amount" [(ngModel)]="amount" id="amount" placeholder="Enter the Amount To Withdraw"/>
+    </div>
+    <br>
+    <div class="one">
+    <input type="submit" value="submit" />
+</div>
+ </form>
+
+ <div style="text-align: right;">
+     <a style="color: white;" routerLink="/customer">Back to Home</a>
+ </div>

@@ -1,0 +1,56 @@
+<app-header></app-header>
+<h1>Queries</h1>
+<table>
+    <tr>
+        <td style="color: white;">
+            TicketNumber
+        </td>
+        <td style="color: white;">
+            Account
+        </td>
+        <td style="color: white;">
+            Date
+        </td>
+        <td style="color: white;">
+            Query
+        </td>
+        <td style="color: white;">
+            Answer
+        </td>
+    </tr>
+    <tr *ngFor="let queries of queue.slice(0,10); let i=index">
+        <td style="color: white;">
+            {{queries.TicketNumber}}
+        </td>
+        <td style="color: white;">
+            {{queries.AccNumber}}
+        </td>
+        <td style="color: white;">
+            {{queries.Date}}
+        </td>
+        <td style="color: white;">
+            {{queries.Query}}
+        </td>
+        <td style="color: white;">
+            {{queries.Answer}}
+        </td>
+        
+    </tr>
+</table>
+
+
+<br>
+
+
+<form class="one" (ngSubmit)="onSubmitQuery()">
+    <div>
+        <label for="query">Enter your Query Here..</label>
+        <input type="text" name="query" id="query" [(ngModel)]="query"/>
+    </div>
+    <br>
+    <input type="submit" value="submit">
+</form>
+
+<div style="text-align: right;">
+    <a style="color: white;" routerLink="/customer">Back to Home</a>
+</div>

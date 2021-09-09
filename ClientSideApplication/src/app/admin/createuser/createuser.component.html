@@ -1,0 +1,31 @@
+<app-header></app-header>
+<h1>Create User</h1>
+<form (ngSubmit)="onSubmitUser()">
+    <table>
+        <tr>
+            <td style="color: white;">
+                User Name 
+            </td>
+            <td style="color: white;">
+                <input type="text" [(ngModel)]="username" name="user" id="user" placeholder="Enter the Admin User Name" required/>
+            </td>
+        </tr>
+        <tr>
+            <td style="color: white;">
+                Role 
+            </td>
+            <td style="color: white;">
+                Admin
+            </td>
+        </tr>
+        <tr>
+            <td style="color: white;">
+                <input type="submit" value="Create User"/>
+            </td>
+            <td style="color: white;">
+                <a style="color: white;" routerLink="/adminhome">Back to Home</a>
+            </td>
+        </tr>
+    </table>
+</form>
+

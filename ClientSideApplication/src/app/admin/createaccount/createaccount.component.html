@@ -1,0 +1,71 @@
+<app-header></app-header>
+<h1>Create Account</h1>
+<form (ngSubmit)="onSubmit()" class="CreatAcc">
+    <table>
+        <tr>
+            <td style="color: white;">
+                First Name :
+            </td>
+            <td style="color: white;">
+                <input type="text" [(ngModel)]="FirstName" name="first" id="first" placeholder="First Name" required/>
+            </td>
+        </tr>
+        <tr>
+            <td style="color: white;">
+                Last Name :
+            </td>
+            <td style="color: white;">
+                <input type="text" [(ngModel)]="LastName" name="last" id="last" placeholder="Last Name" required/>
+            </td>
+        </tr>
+        <tr>
+            <td style="color: white;">
+                Address :
+            </td>
+            <td style="color: white;">
+                <input type="text" [(ngModel)]="Address" name="address" id="address" placeholder="Address" required/>
+            </td>
+        </tr>
+        <tr>
+            <td style="color: white;">
+                Phone Number :
+            </td>
+            <td style="color: white;">
+                <input type="text" [(ngModel)]="PhoneNumber" name="phone" id="phone" placeholder="Phone Number" required/>
+            </td>
+        </tr>
+        <tr>
+            <td style="color: white;">
+                Age :
+            </td>
+            <td style="color: white;">
+                <input type="number" [(ngModel)]="Age" name="age" id="age" placeholder="Age" required/>
+            </td>
+        </tr>
+        <tr>
+            <td style="color: white;">
+                DOB :
+            </td>
+            <td style="color: white;">
+                <input type="date" [(ngModel)]="DOB" name="dob" id="dob" placeholder="DOB" required/>
+            </td>
+        </tr>
+        <tr>
+            <td style="color: white;">
+                Gender :
+            </td>
+            <td style="color: white;">
+                <input type="text" [(ngModel)]="Gender" name="gender" id="gender" placeholder="Gender" required/>
+            </td>
+        </tr>
+        <tr>
+            <td style="color: white;">
+                <input type="submit" value="Create Account"/>
+            </td>
+            <td style="color: white;">
+                <a style="color: white;" routerLink="/adminhome">Back to Home</a>
+            </td>
+            
+        </tr>
+    </table>
+</form>

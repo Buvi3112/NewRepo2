@@ -1,0 +1,17 @@
+table{
+    align-content: flex-end;
+    width: 75%;
+    padding-left: 20%;
+}
+
+td {
+    height: 30px;
+    vertical-align: bottom;
+  }
+
+  a:link { text-decoration: none; }
+
+  h1{
+    text-align: center;
+    color: white;
+}

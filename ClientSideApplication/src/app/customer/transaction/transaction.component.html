@@ -1,0 +1,67 @@
+<app-header></app-header>
+<h1>Transaction Details</h1>
+<div style="text-align: right;">
+    <a style="color: white;" routerLink="/customer">Back to Home</a>
+</div>
+
+<table>
+    <tr>
+        <td style="color: white;">
+            Transaction Id
+        </td>
+        <td style="color: white;">
+            Transaction Type
+        </td>
+        <td style="color: white;">
+            Date
+        </td>
+        <td style="color: white;">
+            From Account Number
+        </td>
+        <td style="color: white;">
+            From Name
+        </td>
+        <td style="color: white;">
+            To Name
+        </td>
+        <td style="color: white;">
+            To Account Number
+        </td>
+        <td style="color: white;">
+            Amount
+        </td>
+        <td style="color: white;">
+            Status
+        </td>
+    </tr>
+    <tr *ngFor="let transaction of trans.slice(0,10); let i=index">
+        <td style="color: white;">
+            {{transaction.TransactionId}}
+        </td>
+        <td style="color: white;">
+            {{transaction.TransactionType}}
+        </td>
+        <td style="color: white;">
+            {{transaction.Date}}
+        </td>
+        <td style="color: white;">
+            {{transaction.FromAccNumber}}
+        </td>
+        <td style="color: white;">
+            {{transaction.FromName}}
+        </td>
+        <td style="color: white;">
+            {{transaction.ToName}}
+        </td>
+        <td style="color: white;">
+            {{transaction.ToAccNumber}}
+        </td>
+        <td style="color: white;">
+            {{transaction.Amount}}
+        </td>
+        <td style="color: white;">
+            {{transaction.Status}}
+        </td>
+    </tr>
+</table>
+

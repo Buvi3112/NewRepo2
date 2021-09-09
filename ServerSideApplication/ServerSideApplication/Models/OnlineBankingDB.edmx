@@ -1,0 +1,461 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="OnlineBankingModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AccountDetailsTable">
+          <Key>
+            <PropertyRef Name="AccNumber" />
+          </Key>
+          <Property Name="AccNumber" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="FirstName" Type="varchar(max)" Nullable="false" />
+          <Property Name="LastName" Type="varchar(max)" Nullable="false" />
+          <Property Name="Address" Type="varchar(max)" Nullable="false" />
+          <Property Name="PhoneNumber" Type="varchar(max)" Nullable="false" />
+          <Property Name="Age" Type="int" />
+          <Property Name="DOB" Type="date" Nullable="false" />
+          <Property Name="CurrentBalance" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Gender" Type="varchar(max)" />
+          <Property Name="AccountCreationDate" Type="date" />
+          <Property Name="Freeze_UnFreeze" Type="varchar(max)" />
+          <Property Name="MaxTransactionLimitPerDay" Type="int" />
+        </EntityType>
+        <EntityType Name="QueryTable">
+          <Key>
+            <PropertyRef Name="TicketNumber" />
+          </Key>
+          <Property Name="TicketNumber" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="AccNumber" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Query" Type="varchar(max)" />
+          <Property Name="Answer" Type="varchar(max)" />
+          <Property Name="GivenBy" Type="varchar(max)" />
+          <Property Name="Date" Type="date" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TransactionHistoryTable">
+          <Key>
+            <PropertyRef Name="HistoryKey" />
+          </Key>
+          <Property Name="HistoryKey" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="AccNumber" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="DebitAmount" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="CreditAmount" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="Balance" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TransactionsTable">
+          <Key>
+            <PropertyRef Name="TransactionId" />
+          </Key>
+          <Property Name="TransactionId" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="AccNumber" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="TransactionType" Type="varchar(max)" Nullable="false" />
+          <Property Name="FromAccNumber" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="ToAccNumber" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="FromName" Type="varchar(max)" />
+          <Property Name="ToName" Type="varchar(max)" />
+          <Property Name="Amount" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Status" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="varchar(max)" Nullable="false" />
+          <Property Name="Password" Type="varchar(max)" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserInRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_User_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserInRole_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="UserInRole" Type="Self.UserInRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="UserInRole">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserInRole_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserInRole" Type="Self.UserInRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserInRole">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="AccRandom" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="unit" Type="int" Mode="In" />
+          <Parameter Name="min" Type="int" Mode="In" />
+          <Parameter Name="max" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Conversion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="unit" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Random" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="unit" Type="int" Mode="In" />
+          <Parameter Name="min" Type="int" Mode="In" />
+          <Parameter Name="max" Type="int" Mode="In" />
+        </Function>
+        <Function Name="TransRandom" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="unit" Type="int" Mode="In" />
+          <Parameter Name="min" Type="int" Mode="In" />
+          <Parameter Name="max" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="OnlineBankingModelStoreContainer">
+          <EntitySet Name="AccountDetailsTable" EntityType="Self.AccountDetailsTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QueryTable" EntityType="Self.QueryTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TransactionHistoryTable" EntityType="Self.TransactionHistoryTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TransactionsTable" EntityType="Self.TransactionsTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserInRole" EntityType="Self.UserInRole" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserInRole_Role" Association="Self.FK_UserInRole_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="UserInRole" EntitySet="UserInRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserInRole_User" Association="Self.FK_UserInRole_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserInRole" EntitySet="UserInRole" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="OnlineBankingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AccountDetailsTable">
+          <Key>
+            <PropertyRef Name="AccNumber" />
+          </Key>
+          <Property Name="AccNumber" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Age" Type="Int32" />
+          <Property Name="DOB" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CurrentBalance" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Gender" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AccountCreationDate" Type="DateTime" Precision="0" />
+          <Property Name="Freeze_UnFreeze" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="MaxTransactionLimitPerDay" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_User_User" FromRole="Role" ToRole="User" />
+          <NavigationProperty Name="UserInRoles" Relationship="Self.FK_UserInRole_Role" FromRole="Role" ToRole="UserInRole" />
+        </EntityType>
+        <EntityType Name="TransactionHistoryTable">
+          <Key>
+            <PropertyRef Name="HistoryKey" />
+          </Key>
+          <Property Name="HistoryKey" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="AccNumber" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="DebitAmount" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="CreditAmount" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Balance" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TransactionsTable">
+          <Key>
+            <PropertyRef Name="TransactionId" />
+          </Key>
+          <Property Name="TransactionId" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="AccNumber" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TransactionType" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FromAccNumber" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ToAccNumber" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="FromName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ToName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Role" Relationship="Self.FK_User_User" FromRole="User" ToRole="Role" />
+          <NavigationProperty Name="UserInRoles" Relationship="Self.FK_UserInRole_User" FromRole="User" ToRole="UserInRole" />
+        </EntityType>
+        <EntityType Name="UserInRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Role" Relationship="Self.FK_UserInRole_Role" FromRole="UserInRole" ToRole="Role" />
+          <NavigationProperty Name="User" Relationship="Self.FK_UserInRole_User" FromRole="UserInRole" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_TransactionHistoryTable_AccountDetailsTable">
+          <End Role="AccountDetailsTable" Type="Self.AccountDetailsTable" Multiplicity="1" />
+          <End Role="TransactionHistoryTable" Type="Self.TransactionHistoryTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AccountDetailsTable">
+              <PropertyRef Name="AccNumber" />
+            </Principal>
+            <Dependent Role="TransactionHistoryTable">
+              <PropertyRef Name="AccNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransactionsTable_AccountDetailsTable">
+          <End Role="AccountDetailsTable" Type="Self.AccountDetailsTable" Multiplicity="1" />
+          <End Role="TransactionsTable" Type="Self.TransactionsTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AccountDetailsTable">
+              <PropertyRef Name="AccNumber" />
+            </Principal>
+            <Dependent Role="TransactionsTable">
+              <PropertyRef Name="AccNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_User">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserInRole_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="UserInRole" Type="Self.UserInRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="UserInRole">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserInRole_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserInRole" Type="Self.UserInRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserInRole">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="OnlineBankingEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AccountDetailsTables" EntityType="Self.AccountDetailsTable" />
+          <EntitySet Name="Roles" EntityType="Self.Role" />
+          <EntitySet Name="TransactionHistoryTables" EntityType="Self.TransactionHistoryTable" />
+          <EntitySet Name="TransactionsTables" EntityType="Self.TransactionsTable" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="UserInRoles" EntityType="Self.UserInRole" />
+          <AssociationSet Name="FK_TransactionHistoryTable_AccountDetailsTable" Association="Self.FK_TransactionHistoryTable_AccountDetailsTable">
+            <End Role="AccountDetailsTable" EntitySet="AccountDetailsTables" />
+            <End Role="TransactionHistoryTable" EntitySet="TransactionHistoryTables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransactionsTable_AccountDetailsTable" Association="Self.FK_TransactionsTable_AccountDetailsTable">
+            <End Role="AccountDetailsTable" EntitySet="AccountDetailsTables" />
+            <End Role="TransactionsTable" EntitySet="TransactionsTables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_User" Association="Self.FK_User_User">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserInRole_Role" Association="Self.FK_UserInRole_Role">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="UserInRole" EntitySet="UserInRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserInRole_User" Association="Self.FK_UserInRole_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserInRole" EntitySet="UserInRoles" />
+          </AssociationSet>
+          <EntitySet Name="QueryTables" EntityType="OnlineBankingModel.QueryTable" />
+        </EntityContainer>
+        <ComplexType Name="Conversion1_Result">
+          <Property Type="Double" Name="Column1" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="Conversion1_Result1">
+          <Property Type="Double" Name="Column1" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="AccR_Result">
+          <Property Type="Int32" Name="Column1" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="QueryTable">
+          <Key>
+            <PropertyRef Name="TicketNumber" />
+          </Key>
+          <Property Name="TicketNumber" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="AccNumber" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Query" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Answer" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="GivenBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="OnlineBankingModelStoreContainer" CdmEntityContainer="OnlineBankingEntities">
+          <EntitySetMapping Name="AccountDetailsTables">
+            <EntityTypeMapping TypeName="OnlineBankingModel.AccountDetailsTable">
+              <MappingFragment StoreEntitySet="AccountDetailsTable">
+                <ScalarProperty Name="AccNumber" ColumnName="AccNumber" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="CurrentBalance" ColumnName="CurrentBalance" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="AccountCreationDate" ColumnName="AccountCreationDate" />
+                <ScalarProperty Name="Freeze_UnFreeze" ColumnName="Freeze_UnFreeze" />
+                <ScalarProperty Name="MaxTransactionLimitPerDay" ColumnName="MaxTransactionLimitPerDay" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="OnlineBankingModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TransactionHistoryTables">
+            <EntityTypeMapping TypeName="OnlineBankingModel.TransactionHistoryTable">
+              <MappingFragment StoreEntitySet="TransactionHistoryTable">
+                <ScalarProperty Name="HistoryKey" ColumnName="HistoryKey" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="AccNumber" ColumnName="AccNumber" />
+                <ScalarProperty Name="DebitAmount" ColumnName="DebitAmount" />
+                <ScalarProperty Name="CreditAmount" ColumnName="CreditAmount" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TransactionsTables">
+            <EntityTypeMapping TypeName="OnlineBankingModel.TransactionsTable">
+              <MappingFragment StoreEntitySet="TransactionsTable">
+                <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
+                <ScalarProperty Name="AccNumber" ColumnName="AccNumber" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
+                <ScalarProperty Name="FromAccNumber" ColumnName="FromAccNumber" />
+                <ScalarProperty Name="ToAccNumber" ColumnName="ToAccNumber" />
+                <ScalarProperty Name="FromName" ColumnName="FromName" />
+                <ScalarProperty Name="ToName" ColumnName="ToName" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="OnlineBankingModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserInRoles">
+            <EntityTypeMapping TypeName="OnlineBankingModel.UserInRole">
+              <MappingFragment StoreEntitySet="UserInRole">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QueryTables">
+            <EntityTypeMapping TypeName="OnlineBankingModel.QueryTable">
+              <MappingFragment StoreEntitySet="QueryTable">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="GivenBy" ColumnName="GivenBy" />
+                <ScalarProperty Name="Answer" ColumnName="Answer" />
+                <ScalarProperty Name="Query" ColumnName="Query" />
+                <ScalarProperty Name="AccNumber" ColumnName="AccNumber" />
+                <ScalarProperty Name="TicketNumber" ColumnName="TicketNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

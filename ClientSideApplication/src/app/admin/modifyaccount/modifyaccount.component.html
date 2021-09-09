@@ -1,0 +1,106 @@
+<app-header></app-header>
+<h1>Modify Account</h1>
+<form class="one" (ngSubmit)="onSubmitAccount(accountName)">
+   <div>
+        <label for="accountName">Account Number :</label>
+        <input type="text" name="accountName" [(ngModel)]="accountName" id="accountName" placeholder="Account Number"/>
+   </div>
+   <br>
+   <input type="submit" value="submit"/>
+</form>
+
+<form *ngIf="isError" class="one" >
+    <div>PLease check the Account Number</div>
+</form>
+
+
+
+<form *ngIf="show" (ngSubmit)="toEdit()">
+   <table>
+      <tr>
+         <td>
+             Account Number :
+         </td>
+         <td>
+             {{accNumber}}
+         </td>
+     </tr>
+       <tr>
+           <td>
+               First Name :
+           </td>
+           <td>
+               <input type="text" [(ngModel)]="firstName" name="name" value={{firstName}} placeholder="First Name" required/>
+           </td>
+       </tr>
+       <tr>
+           <td>
+               Last Name :
+           </td>
+           <td>
+               <input type="text" [(ngModel)]="LastName" name="last" value={{LastName}} placeholder="Last Name" required/>
+           </td>
+       </tr>
+       <tr>
+           <td>
+               Address :
+           </td>
+           <td>
+               <input type="text" [(ngModel)]="Address" name="address" value={{Address}} placeholder="Address" required/>
+           </td>
+       </tr>
+       <tr>
+           <td>
+               Phone Number :
+           </td>
+           <td>
+               <input type="text" [(ngModel)]="PhoneNumber" name="phone" value={{PhoneNumber}} placeholder="Phone Number" required/>
+           </td>
+       </tr>
+       <tr>
+           <td>
+               Age :
+           </td>
+           <td>
+               <input type="number" [(ngModel)]="Age" name="age" value={{Age}} placeholder="Age" required/>
+           </td>
+       </tr>
+       <tr>
+           <td>
+               DOB :
+           </td>
+           <td>
+               {{DOB | date:'short'}}<br>
+               <input type="date" [(ngModel)]="DOB" name="dob" value={{DOB}} placeholder="DOB" required/>
+           </td>
+       </tr>
+       <tr>
+           <td>
+               Gender :
+           </td>
+           <td>
+               <input type="text" [(ngModel)]="Gender" name="gender" value={{Gender}} placeholder="Gender" required/>
+           </td>
+       </tr>
+       <tr>
+         <td>
+             Current Balance :
+         </td>
+         <td>
+             {{CurrentBalance}}
+         </td>
+     </tr>
+       <tr>
+           <td>
+               <input type="submit" value="Modify Account"/>
+           </td>
+           
+           
+       </tr>
+   </table>
+</form>
+
+
+<div style="text-align: right;">
+    <a style="color: white;" routerLink="/adminhome">Back to Home</a>
+</div>
